@@ -1,9 +1,10 @@
 <?php
+
 namespace APP\Controller;
 
+require_once __DIR__ . "/../../vendor/autoload.php";
 use APP\model\User;
-
-require_once "./../../vendor/autoload.php";
+use PDO;
 class Usercontroller{
     public function register($firstname,$lastname,$email,$password){
         $user=new User();
@@ -14,7 +15,8 @@ class Usercontroller{
         $userinfo=$user->findUserByEmail($email);
         if (!empty($userinfo)) {
             if(password_verify($password,$userinfo['password'])){
-                header('location:./../../view/dasboard.php');
+                $_SESSION['id']=$userinfo['id'];
+                header('location:./../../view/dashboard.php');
             }else{
                 header('location:./../../view/login.php');
             }
@@ -23,13 +25,19 @@ class Usercontroller{
     public function findAll($id){
         $user=new User();
         $result=$user->getAll($id);
-        $fetchall=$result->fetchAll();
+        $fetchall=$result->fetchAll(PDO::FETCH_ASSOC);
         return $fetchall;
     }
 
-    public function usersNumbers($id){
+    public function delete($id){
         $user=new User();
-        $result=$user->getAllUsers($id);
+        $user->deleteById($id);
+        header('location:./../../view/manageusers.php');
+    }
+
+    public function usersNumbers(){
+        $user=new User();
+        $result=$user->count();
         $usersNumbers=$result->fetchAll();
         return $usersNumbers;
     }
@@ -71,4 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
     }else {
         $user->login($email,$password);
     }
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete-user'])){
+    $id=$_GET['id'];
+    $user->delete($id);
 }
