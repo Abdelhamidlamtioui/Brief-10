@@ -29,15 +29,28 @@ class Usercontroller{
         return $fetchall;
     }
 
+    public function findOne($id){
+        $user=new User();
+        $result=$user->getOne($id);
+        $fetch=$result->fetch(PDO::FETCH_ASSOC);
+        return $fetch;
+    }
+
+    public function editUser($id,$role){
+        $user=new User();
+        $user->editUser($id,$role);
+        header('location:./../../view/manage_Users.php');
+    }
+
     public function delete($id){
         $user=new User();
         $user->deleteById($id);
-        header('location:./../../view/manageusers.php');
+        header('location:./../../view/manage_Users.php');
     }
 
     public function usersNumbers(){
         $user=new User();
-        $result=$user->count();
+        $result=$user->countUsers();
         $usersNumbers=$result->fetchAll();
         return $usersNumbers;
     }
@@ -85,4 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete-user'])){
     $id=$_GET['id'];
     $user->delete($id);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit-user'])){
+    $id=$_GET['id'];
+    $role=$_POST['role'];
+    $user->editUser($id,$role);
 }

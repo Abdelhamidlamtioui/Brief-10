@@ -12,7 +12,7 @@ class Wikies{
     
     public function addWikie($title,$content,$user_id,$category_id){
         try {
-            $sql ="INSERT INTO wiki (`title`, `content`,`visibility`, `user_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
+            $sql ="INSERT INTO wiki (`title`, `content`,`visibility`, `author_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':title', $title);
             $statement->bindParam(':content',$content);

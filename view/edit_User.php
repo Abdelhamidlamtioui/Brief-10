@@ -1,4 +1,11 @@
-
+<?php 
+require_once __DIR__ . "/../vendor/autoload.php";
+use APP\Controller\Usercontroller;
+$user= new Usercontroller;
+if (isset($_GET['id'])) {
+    $result=$user->findOne($_GET['id']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +19,10 @@
         <div class="text-2xl font-bold pl-10 cursor-pointer">LOGO</div>
         <div>
             <ul class="flex gap-7 font-semibold">
-                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manageusers.php">Manage User</a></li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer">Manage Categories</li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer">Manage Wikies</li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer">Manage Tags</li>
+                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Users.php">Manage User</a></li>
+                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Category.php">Manage Categories</a></li>
+                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Wikies.php">Manage Wikies</a></li>
+                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Tags.php">Manage Tags</a></li>
             </ul>
         </div>
         <div class="pr-10">
@@ -27,27 +34,27 @@
             <h1>Edit user</h1>
         </div>
         <div class="w-6/12 mx-auto mt-10">
-            <form action="./../app/Controller/Usercontroller.php" method="POST">
+            <form action="./../app/Controller/Usercontroller.php?id=<?=$_GET['id']?>" method="POST">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-lg font-bold mb-2">First Name:</label>
-                    <span id="firstname" class="text-gray-700 text-lg">[User's First Name]</span>
+                    <span id="firstname" class="text-gray-700 text-lg"><?= $result['firstname'] ?></span>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-lg font-bold mb-2">Last Name:</label>
-                    <span id="lastname" class="text-gray-700 text-lg">[User's Last Name]</span>
+                    <span id="lastname" class="text-gray-700 text-lg"><?= $result['lastname'] ?></span>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-lg font-bold mb-2">Email:</label>
-                    <span id="email" class="text-gray-700 text-lg">[User's Email]</span>
+                    <span id="email" class="text-gray-700 text-lg"><?= $result['email'] ?></span>
                 </div>
                 <div class="mb-4">
                     <label for="role" class="block text-gray-700 text-lg font-bold mb-2">Role:</label>
                     <select name="role" id="role" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
-                        <option value="writer">Writer</option>
-                        <option value="admin">Admin</option>
+                        <option value="0">Writer</option>
+                        <option value="1">Admin</option>
                     </select>
                 </div>
-                <button type="submit" name="update-User-Role" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
+                <button type="submit" name="edit-user" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
                     Update User
                 </button>
             </form>

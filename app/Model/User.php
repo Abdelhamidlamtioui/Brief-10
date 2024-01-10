@@ -60,7 +60,33 @@ class User{
             return false;
         }
     }
-    public function count(){
+
+    public function getOne($id){
+        try{
+            $sql="SELECT * FROM users WHERE id = :id";
+            $statement=$this->database->prepare($sql);
+            $statement->bindParam(':id',$id);
+            $statement->execute();
+            return $statement;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function editUser($id,$role){
+        try {
+            $sql ="UPDATE users SET is_admin=:is_admin WHERE id = :id";
+            $statement = $this->database->prepare($sql);
+            $statement->bindParam(':id',$id);
+            $statement->bindParam(':is_admin',$role);
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function countUsers(){
         try{
             $sql ="SELECT COUNT(*) FROM users";
             $statement=$this->database->prepare($sql);

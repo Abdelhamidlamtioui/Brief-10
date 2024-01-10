@@ -24,16 +24,19 @@ class Categoriescontroller{
     public function addCategorie($title){
         $categories=new Categories;
         $categories->addCategorie($title);
+        header('location:./../../view/manage_Categories.php');
     }
 
     public function deleteCategorie($id){
         $categories=new Categories;
         $categories->deleteCategorie($id);
+        header('location:./../../view/manage_Categories.php');
     }
 
     public function editCategorie($id,$title){
         $categories=new Categories;
         $categories->editCategorie($id,$title);
+        header('location:./../../view/manage_Categories.php');
     }
 
 }
@@ -41,17 +44,18 @@ class Categoriescontroller{
 $categories=new Categoriescontroller;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add-categorie'])) {
+    echo 'khedam';
     $title=$_POST['title'];
     $categories->addCategorie($title);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit-categorie'])) {
     $title=$_POST['title'];
-    $id=$_POST['id'];
+    $id=$_GET['id'];
     $categories->editCategorie($id,$title);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete-categorie'])) {
-    $id=$_POST['id'];
+    $id=$_GET['id'];
     $categories->deleteCategorie($id);
 }
