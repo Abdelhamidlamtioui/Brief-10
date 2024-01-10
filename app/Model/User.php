@@ -54,7 +54,8 @@ class User{
             $statement=$this->database->prepare($sql);
             $statement->bindParam(':id',$id);
             $statement->execute();
-            return $statement;
+            $fetchall=$statement->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
@@ -67,7 +68,8 @@ class User{
             $statement=$this->database->prepare($sql);
             $statement->bindParam(':id',$id);
             $statement->execute();
-            return $statement;
+            $fetch=$statement->fetch(PDO::FETCH_ASSOC);
+            return $fetch;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;

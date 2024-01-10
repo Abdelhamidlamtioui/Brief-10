@@ -25,15 +25,13 @@ class Usercontroller{
     public function findAll($id){
         $user=new User();
         $result=$user->getAll($id);
-        $fetchall=$result->fetchAll(PDO::FETCH_ASSOC);
-        return $fetchall;
+        return $result;
     }
 
     public function findOne($id){
         $user=new User();
         $result=$user->getOne($id);
-        $fetch=$result->fetch(PDO::FETCH_ASSOC);
-        return $fetch;
+        return $result;
     }
 
     public function editUser($id,$role){

@@ -2,7 +2,11 @@
 include_once __DIR__.'/../vendor/autoload.php';
 use APP\Controller\Categoriescontroller;
 use APP\Controller\Tagcontroller;
-
+use APP\Controller\Wikiescontroller;
+$wikie=new Wikiescontroller;
+if (isset($_GET['id'])) {
+    $wikie_results=$wikie->findOneWikie($_GET['id']);
+}
 $category=new Categoriescontroller;
 $category_results=$category->findAllCategories();
 $tag=new Tagcontroller;
@@ -36,14 +40,14 @@ $tag_results=$tag->findAllTags();
             <h1>Add Wikie</h1>
         </div>
         <div class="w-6/12 mx-auto mt-10">
-            <form action="./../app/Controller/Wikiescontroller.php" method="POST">
+            <form action="./../app/Controller/Wikiescontroller.php?id=<?=$_GET['id']?>" method="POST">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-lg font-bold mb-2">Title of the Wikie:</label>
-                    <input type="text" name="title" id="title" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" />
+                    <input value="<?= $wikie_results['title'] ?>" type="text" name="title" id="title" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" />
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-lg font-bold mb-2">Content of the Wikies:</label>
-                    <textarea type="text" name="content" id="content" cols="30" rows="10" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" ></textarea>
+                    <textarea type="text" name="content" id="content" cols="30" rows="10" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" ><?= $wikie_results['content'] ?></textarea>
                 </div>
                 <div class="mb-4">
                     <label for="categorie-id" class="block text-gray-700 text-lg font-bold mb-2">Categories:</label>
@@ -61,9 +65,8 @@ $tag_results=$tag->findAllTags();
                         <?php endforeach ; ?>
                     </select>
                 </div>
-                <input type="hidden" name="user-id" value="<?= $_SESSION['id'] ?>">
-                <button type="submit" name="add-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
-                    Add Wikie
+                <button type="submit" name="edit-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
+                    Edit Wikie
                 </button> 
             </form>
         </div>

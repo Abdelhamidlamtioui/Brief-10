@@ -29,7 +29,8 @@ class Categories{
             $sql="SELECT * FROM categories";
             $stmt=$this->database->prepare($sql);
             $stmt->execute();
-            return $stmt;
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
         }catch( PDOException $e){
             echo "Error: ". $e->getMessage();
             return false;
@@ -42,7 +43,8 @@ class Categories{
             $stmt=$this->database->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();
-            return $stmt;
+            $fetch=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $fetch;
         }catch( PDOException $e){
             echo "Error: ". $e->getMessage();
             return false;

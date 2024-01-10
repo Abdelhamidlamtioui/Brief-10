@@ -2,7 +2,6 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use APP\Controller\Categoriescontroller;
-session_start();
 $getall= new Categoriescontroller;
 $results=$getall->findAllCategories();
 ?>

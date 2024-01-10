@@ -10,15 +10,13 @@ class Tagcontroller{
     public function findAllTags(){
         $tags=new Tag;
         $result=$tags->getAllTags();
-        $fetchall=$result->fetchAll(PDO::FETCH_ASSOC);
-        return $fetchall;
+        return $result;
     }
 
     public function findOneTag($id){
         $tags=new Tag;
         $result=$tags->getOneTag($id);
-        $fetch=$result->fetch(PDO::FETCH_ASSOC);
-        return $fetch;
+        return $result;
     }
 
     public function addTag($title){

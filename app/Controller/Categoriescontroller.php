@@ -10,15 +10,13 @@ class Categoriescontroller{
     public function findAllCategories(){
         $categories=new Categories;
         $result=$categories->getAllCategories();
-        $fetchall=$result->fetchAll(PDO::FETCH_ASSOC);
-        return $fetchall;
+        return $result;
     }
 
     public function findOneCategorie($id){
         $categories=new Categories;
         $result=$categories->getOneCategorie($id);
-        $fetch=$result->fetch(PDO::FETCH_ASSOC);
-        return $fetch;
+        return $result;
     }
 
     public function addCategorie($title){

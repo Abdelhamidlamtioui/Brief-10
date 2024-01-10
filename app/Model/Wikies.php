@@ -3,6 +3,7 @@ namespace APP\Model;
 include_once __DIR__.'/../../vendor/autoload.php';
 use APP\config\Database;
 use PDOException;
+use PDO;
 class Wikies{
     private $database;
     public function __construct(){
@@ -10,7 +11,7 @@ class Wikies{
         $this->database=$connection->getConnection();
     }
     
-    public function addWikie($title,$content,$user_id,$category_id){
+    public function addWikie($title,$content,$user_id,$category_id,$tag_id){
         try {
             $sql ="INSERT INTO wiki (`title`, `content`,`visibility`, `author_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
             $statement = $this->database->prepare($sql);
@@ -18,6 +19,14 @@ class Wikies{
             $statement->bindParam(':content',$content);
             $statement->bindParam(':user_id', $user_id);
             $statement->bindParam(':category_id',$category_id);
+            $statement->execute();
+
+            $wikie_id=$this->database->lastInsertId();
+            
+            $sql ="INSERT INTO wikitag (`wiki_id`, `tag_id`) VALUES (:wiki_id,:tag_id)";
+            $statement = $this->database->prepare($sql);
+            $statement->bindParam(':wiki_id', $wikie_id);
+            $statement->bindParam(':tag_id',$tag_id);
             $statement->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -39,7 +48,8 @@ class Wikies{
             $sql="SELECT * FROM wiki";
             $stmt=$this->database->prepare($sql);
             $stmt->execute();
-            return $stmt;
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
         }catch( PDOException $e){
             echo "Error: ". $e->getMessage();
             return false;
@@ -52,20 +62,22 @@ class Wikies{
             $stmt=$this->database->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();
-            return $stmt;
+            $fetch=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $fetch;
         }catch( PDOException $e){
             echo "Error: ". $e->getMessage();
             return false;
         }
     }
 
-    public function editWikie($id,$title,$content){
+    public function editWikie($id,$title,$content,$category_id){
         try {
-            $sql ="UPDATE wiki SET `title`=:title , `content`=:content WHERE id = :id";
+            $sql ="UPDATE wiki SET `title`=:title , `content`=:content , `category_id`=:category_id WHERE id = :id";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':id',$id);
             $statement->bindParam(':title',$title);
-            $statement->bindParam(':title',$content);
+            $statement->bindParam(':content',$content);
+            $statement->bindParam(':category_id',$category_id);
             $statement->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();

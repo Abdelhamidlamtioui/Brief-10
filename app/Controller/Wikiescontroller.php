@@ -10,29 +10,30 @@ class Wikiescontroller{
     public function findAllWikies(){
         $Wikies=new Wikies;
         $result=$Wikies->getAllWikies();
-        $fetchall=$result->fetchAll(PDO::FETCH_ASSOC);
-        return $fetchall;
+        return $result;
     }
     public function findOneWikie($id){
         $Wikies=new Wikies;
         $result=$Wikies->getOneWikie($id);
-        $fetch=$result->fetch(PDO::FETCH_ASSOC);
-        return $fetch;
+        return $result;
     }
 
-    public function addWikie($title,$content,$user_id,$category_id){
+    public function addWikie($title,$content,$user_id,$category_id,$tag_id){
         $Wikies=new Wikies;
-        $Wikies->addWikie($title,$content,$user_id,$category_id);
+        $Wikies->addWikie($title,$content,$user_id,$category_id,$tag_id);
+        header('location:./../../view/manage_wikies.php');
     }
 
     public function archiveWikie($id){
         $Wikies=new Wikies;
         $Wikies->archiveWikie($id);
+        header('location:./../../view/manage_wikies.php');
     }
 
-    public function editWikie($id,$title,$content){
+    public function editWikie($id,$title,$content,$category_id){
         $Wikies=new Wikies;
-        $Wikies->editWikie($id,$title,$content);
+        $Wikies->editWikie($id,$title,$content,$category_id);
+
     }
 
 }
@@ -42,19 +43,23 @@ $wikies=new Wikiescontroller;
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add-wikie'])) {
     $title=$_POST['title'];
     $content=$_POST['content'];
-    $user_id=$_POST['user_id'];
-    $category_id=$_POST['category_id'];
-    $wikies->addWikie($title,$content,$user_id,$category_id);
+    $user_id=$_POST['user-id'];
+    $category_id=$_POST['category-id'];
+    $tag_id=$_POST['tag-id'];
+    $wikies->addWikie($title,$content,$user_id,$category_id,$tag_id);
 }
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit-wikie'])) {
     $title=$_POST['title'];
     $content=$_POST['content'];
-    $id=$_POST['id'];
-    $wikies->editWikie($id,$title,$content);
+    $category_id=$_POST['category-id'];
+    $id=$_GET['id'];
+    $wikies->editWikie($id,$title,$content,$category_id);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['archive-wikie'])) {
-    $id=$_POST['id'];
+    $id=$_GET['id'];
     $wikies->archiveWikie($id);
 }
