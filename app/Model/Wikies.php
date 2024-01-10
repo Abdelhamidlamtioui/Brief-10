@@ -12,7 +12,7 @@ class Wikies{
     
     public function addWikie($title,$content,$user_id,$category_id){
         try {
-            $sql ="INSERT INTO wikies (`title`, `content`,`visibility`, `user_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
+            $sql ="INSERT INTO wiki (`title`, `content`,`visibility`, `user_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':title', $title);
             $statement->bindParam(':content',$content);
@@ -25,7 +25,7 @@ class Wikies{
     }
     public function archiveWikie($id){
         try{
-            $sql ="UPDATE wikies SET visibility = 0 WHERE id=:id";
+            $sql ="UPDATE wiki SET visibility = 0 WHERE id=:id";
             $statement=$this->database->prepare($sql);
             $statement->bindParam(':id',$id);
             $statement->execute();
@@ -36,7 +36,7 @@ class Wikies{
 
     public function getAllWikies(){
         try{
-            $sql="SELECT * FROM wikies";
+            $sql="SELECT * FROM wiki";
             $stmt=$this->database->prepare($sql);
             $stmt->execute();
             return $stmt;
@@ -48,7 +48,7 @@ class Wikies{
 
     public function getOneWikie($id){
         try{
-            $sql="SELECT * FROM wikies WHERE id= :id";
+            $sql="SELECT * FROM wiki WHERE id= :id";
             $stmt=$this->database->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();
@@ -59,9 +59,9 @@ class Wikies{
         }
     }
 
-    public function editwikie($id,$title,$content){
+    public function editWikie($id,$title,$content){
         try {
-            $sql ="UPDATE wikies SET `title`=:title , `content`=:content WHERE id = :id";
+            $sql ="UPDATE wiki SET `title`=:title , `content`=:content WHERE id = :id";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':id',$id);
             $statement->bindParam(':title',$title);
