@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . "/../vendor/autoload.php";
+use APP\Controller\Usercontroller;
+session_start();
+$getall= new Usercontroller;
+$results=$getall->findAll($_SESSION['id']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,25 +44,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($results as $result) :?>
                     <tr class="hover:bg-gray-50">
-                        <td class="border px-4 py-2">Malcolm Lockyer</td>
-                        <td class="border px-4 py-2">MalcolmLockyer@gmail.com</td>
-                        <td class="border px-4 py-2">admin</td>
+                        <td class="border px-4 py-2"><?= $result['firstname'] .' '.$result['lastname'] ?></td>
+                        <td class="border px-4 py-2"><?= $result['email'] ?></td>
+                        <td class="border px-4 py-2"><?php echo $cal = ($result['is_admin']===0) ? "writer" : "Admin" ; ?></td>
                         <td class="border px-4 py-2">
-                            <form action="./../app/Controller/Usercontroller.php">
+                            <form method="post" action="./../app/Controller/Usercontroller.php?id=<?= $result['id'] ?>">
+                                <input type="hidden" name="id">
                                 <button name="delete-user" class="bg-red-600 hover:bg-red-400 text-white py-1 px-2 rounded-md cursor-pointer">
                                     DELETE
                                 </button>
                             </form>
                         </td>
                         <td class="border px-4 py-2">
-                            <form action="./../app/Controller/Usercontroller.php">
-                                <button name="update-user" class="bg-green-600 hover:bg-green-400 text-white py-1 px-2 rounded-md cursor-pointer">
-                                    UPDATE
-                                </button>
+                            <form method="post" action="./../app/Controller/Usercontroller.php?id=<?= $result['id'] ?>">
+                                Edit Role
                             </form>
                         </td>
                     </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
