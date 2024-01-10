@@ -1,3 +1,12 @@
+<?php 
+require_once __DIR__ . "/../vendor/autoload.php";
+use APP\Controller\Tagcontroller;
+
+$tags= new Tagcontroller;
+if (isset($_GET['id'])) {
+    $result=$tags->findOneTag($_GET['id']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,17 +32,17 @@
     </nav>
     <section>
         <div class="flex justify-center text-5xl pt-10">
-            <h1>Add Category</h1>
+            <h1>Edit Tag</h1>
         </div>
         <div class="w-6/12 mx-auto mt-10">
-            <form action="./../app/Controller/Categoriescontroller.php" method="POST">
+            <form action="./../app/Controller/Tagcontroller.php?id=<?=$_GET['id']?>" method="POST">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-lg font-bold mb-2">Title of the Category:</label>
-                    <input type="text" name="title" id="title" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" />
+                    <label class="block text-gray-700 text-lg font-bold mb-2">Title of the Tag:</label>
+                    <input type="text" name="title" value="<?= $result['title']?>" id="title" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg" />
                 </div>
-                <button type="submit" name="add-categorie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
-                    Add Category
-                </button>
+                <button type="submit" name="edit-tag" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
+                    Update Tag
+                </button> 
             </form>
         </div>
     </section>

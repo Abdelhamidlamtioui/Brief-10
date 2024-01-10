@@ -39,7 +39,7 @@ class Wikiescontroller{
 
 $wikies=new Wikiescontroller;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add-wikies'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add-wikie'])) {
     $title=$_POST['title'];
     $content=$_POST['content'];
     $user_id=$_POST['user_id'];

@@ -24,16 +24,19 @@ class Tagcontroller{
     public function addTag($title){
         $tags=new Tag;
         $tags->addTag($title);
+        header('location:./../../view/manage_Tags.php');
     }
 
     public function deleteTag($id){
         $tags=new Tag;
         $tags->deleteTag($id);
+        header('location:./../../view/manage_Tags.php');
     }
 
     public function editTag($id,$title){
         $tags=new Tag;
         $tags->editTag($id,$title);
+        header('location:./../../view/manage_Tags.php');
     }
 
 }
@@ -47,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add-tag'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit-tag'])) {
     $title=$_POST['title'];
-    $id=$_POST['id'];
+    $id=$_GET['id'];
     $tags->editTag($id,$title);
 }
 

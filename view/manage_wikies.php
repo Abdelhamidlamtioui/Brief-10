@@ -57,7 +57,7 @@ $results=$getall->findAll($_SESSION['id']);
                             </form>
                         </td>
                         <td class="border px-4 py-2">
-                            <a class="bg-green-600 hover:bg-green-400 text-white py-1 px-2 rounded-md cursor-pointer" href="update_User.php?id=<?= $result['id'] ?>">
+                            <a class="bg-green-600 hover:bg-green-400 text-white py-1 px-2 rounded-md cursor-pointer" href="edit_Wikie.php?id=<?= $result['id'] ?>">
                                 Edit Role
                             </a>
                         </td>
