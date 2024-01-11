@@ -29,8 +29,12 @@ class Usercontroller{
     }
 
     public function logout(){
+        if (session_status()==PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION=array();
         session_destroy();
-        header('location:./../../view/login.php');
+        header('location:./../../view/index.php');
         exit();
     }
 
@@ -75,22 +79,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register-form'])) {
     $password = filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS);
     $confirmedpassword = filter_var($_POST['confirm-password'], FILTER_SANITIZE_SPECIAL_CHARS);
 
+    $errors = [];
+
     if (empty($firstname)) {
-        echo 'Enter a valid firstname';
-    } elseif (empty($lastname)) {
-        echo 'Enter a valid lastname';
-    } elseif (empty($email)) {
-        echo 'Enter a valid email';
-    } elseif (strlen($password) < 8) {
-        echo 'Enter a password that has at least 8 characters';
-    } elseif ($password !== $confirmedpassword) {
-        echo 'Passwords do not match';
-    } else {
-        $password=password_hash($confirmedpassword,PASSWORD_DEFAULT);
-        $user->register($firstname, $lastname, $email, $password);
+        $errors['firstname'] = 'Enter a valid firstname';
+    }elseif (empty($lastname)) {
+        $errors['lastname'] = 'Enter a valid lastname';
+    }elseif (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Enter a valid email';
+    }elseif (strlen($password) < 8) {
+        $errors['password'] = 'Enter a password that has at least 8 characters';
+    }elseif ($password !== $confirmedpassword) {
+        $errors['confirmedpassword'] = 'Passwords do not match';
+    }
+
+    if (empty($errors)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $user->register($firstname, $lastname, $email, $hashedPassword);
         header('location:./../../view/login.php');
+        exit;
+    } else {
+        if (session_status()==PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['registration_errors'] = $errors;
+        $_SESSION['form_data'] = [
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email
+        ];
+        var_dump($_SESSION);
+        header('location:./../../view/signup.php');
+        exit();
     }
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
     $email=filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
