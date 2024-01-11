@@ -16,12 +16,22 @@ class Usercontroller{
         if (!empty($userinfo)) {
             if(password_verify($password,$userinfo['password'])){
                 $_SESSION['id']=$userinfo['id'];
-                header('location:./../../view/dashboard.php');
+                $_SESSION['role']=$userinfo['is_admin'];
+                if ($_SESSION['role']===0) {
+                    header('location:./../../view/admin/index.php');
+                }else{
+                    header('location:./../../view/admin/dashboard.php');
+                }
             }else{
                 header('location:./../../view/login.php');
             }
         }
     }
+
+    public function logout(){
+        session_destroy();
+    }
+
     public function findAll($id){
         $user=new User();
         $result=$user->getAll($id);
@@ -37,13 +47,13 @@ class Usercontroller{
     public function editUser($id,$role){
         $user=new User();
         $user->editUser($id,$role);
-        header('location:./../../view/manage_Users.php');
+        header('location:./../../view/admin/manage_Users.php');
     }
 
     public function delete($id){
         $user=new User();
         $user->deleteById($id);
-        header('location:./../../view/manage_Users.php');
+        header('location:./../../view/admin/manage_Users.php');
     }
 
     public function usersNumbers(){
@@ -90,6 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
     }else {
         $user->login($email,$password);
     }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['log-out'])){
+
 }
 
 

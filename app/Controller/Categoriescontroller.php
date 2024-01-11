@@ -22,19 +22,19 @@ class Categoriescontroller{
     public function addCategorie($title){
         $categories=new Categories;
         $categories->addCategorie($title);
-        header('location:./../../view/manage_Categories.php');
+        header('location:./../../view/admin/manage_Categories.php');
     }
 
     public function deleteCategorie($id){
         $categories=new Categories;
         $categories->deleteCategorie($id);
-        header('location:./../../view/manage_Categories.php');
+        header('location:./../../view/admin/manage_Categories.php');
     }
 
     public function editCategorie($id,$title){
         $categories=new Categories;
         $categories->editCategorie($id,$title);
-        header('location:./../../view/manage_Categories.php');
+        header('location:./../../view/admin/manage_Categories.php');
     }
 
 }

@@ -21,13 +21,13 @@ class Wikiescontroller{
     public function addWikie($title,$content,$user_id,$category_id,$tag_id){
         $Wikies=new Wikies;
         $Wikies->addWikie($title,$content,$user_id,$category_id,$tag_id);
-        header('location:./../../view/manage_wikies.php');
+        header('location:./../../view/admin/manage_wikies.php');
     }
 
     public function archiveWikie($id){
         $Wikies=new Wikies;
         $Wikies->archiveWikie($id);
-        header('location:./../../view/manage_wikies.php');
+        header('location:./../../view/admin/manage_wikies.php');
     }
 
     public function editWikie($id,$title,$content,$category_id){

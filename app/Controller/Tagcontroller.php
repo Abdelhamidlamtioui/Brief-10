@@ -22,19 +22,19 @@ class Tagcontroller{
     public function addTag($title){
         $tags=new Tag;
         $tags->addTag($title);
-        header('location:./../../view/manage_Tags.php');
+        header('location:./../../view/admin/manage_Tags.php');
     }
 
     public function deleteTag($id){
         $tags=new Tag;
         $tags->deleteTag($id);
-        header('location:./../../view/manage_Tags.php');
+        header('location:./../../view/admin/manage_Tags.php');
     }
 
     public function editTag($id,$title){
         $tags=new Tag;
         $tags->editTag($id,$title);
-        header('location:./../../view/manage_Tags.php');
+        header('location:./../../view/admin/manage_Tags.php');
     }
 
 }
