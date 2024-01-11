@@ -1,7 +1,9 @@
 <?php
 
 namespace APP\Controller;
-
+if (session_status()==PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . "/../../vendor/autoload.php";
 use APP\model\User;
 use PDO;
@@ -23,15 +25,16 @@ class Usercontroller{
                     header('location:./../../view/admin/dashboard.php');
                 }
             }else{
+                $_SESSION['login_error']="Your password is wrong";
                 header('location:./../../view/login.php');
             }
+        }else {
+            $_SESSION['login_error']="Your email doesn't exist";
+            header('location:./../../view/login.php');
         }
     }
 
     public function logout(){
-        if (session_status()==PHP_SESSION_NONE) {
-            session_start();
-        }
         $_SESSION=array();
         session_destroy();
         header('location:./../../view/index.php');
@@ -78,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register-form'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS);
     $confirmedpassword = filter_var($_POST['confirm-password'], FILTER_SANITIZE_SPECIAL_CHARS);
-
     $errors = [];
 
     if (empty($firstname)) {
@@ -96,12 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register-form'])) {
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $user->register($firstname, $lastname, $email, $hashedPassword);
+        $_SESSION['registration_succeeded']="You have successfully registered! Please log in.";
         header('location:./../../view/login.php');
         exit;
     } else {
-        if (session_status()==PHP_SESSION_NONE) {
-            session_start();
-        }
         $_SESSION['registration_errors'] = $errors;
         $_SESSION['form_data'] = [
             'firstname' => $firstname,
@@ -118,13 +118,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register-form'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
     $email=filter_var($_POST['email'],FILTER_SANITIZE_EMAIL);
     $password=filter_var($_POST['password'],FILTER_SANITIZE_SPECIAL_CHARS);
-    if (empty($email)) {
-        echo "entre your email";
-    }elseif (empty($password)) {
-        echo "entre your password";
-    }else {
-        $user->login($email,$password);
+    if (session_status()==PHP_SESSION_NONE) {
+        session_start();
     }
+    if (empty($email)) {
+        $_SESSION['login_error']="Enter a valid email";
+    }elseif (empty($password)) {
+        $_SESSION['login_error']="Enter your password";
+    }
+
+    $user->login($email,$password);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['log-out'])){
