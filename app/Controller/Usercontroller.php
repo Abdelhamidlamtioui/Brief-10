@@ -18,7 +18,7 @@ class Usercontroller{
                 $_SESSION['id']=$userinfo['id'];
                 $_SESSION['role']=$userinfo['is_admin'];
                 if ($_SESSION['role']===0) {
-                    header('location:./../../view/admin/index.php');
+                    header('location:./../../view/index.php');
                 }else{
                     header('location:./../../view/admin/dashboard.php');
                 }
@@ -30,6 +30,8 @@ class Usercontroller{
 
     public function logout(){
         session_destroy();
+        header('location:./../../view/login.php');
+        exit();
     }
 
     public function findAll($id){
@@ -103,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-form'])){
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['log-out'])){
-
+    $user->logout();
 }
 
 
