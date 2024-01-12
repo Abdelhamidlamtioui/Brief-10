@@ -60,7 +60,6 @@ $wikietag=$tags->findAllTagsWikiePage($_GET['id']);
         <p class="text-gray-600 text-lg whitespace-pre-line">
           <?= htmlspecialchars($wikie['content']) ?>
         </p>
-        <!-- Tags Section -->
         <div class="mt-4">
           <h2 class="text-gray-700 text-xl font-semibold mb-2">Tags:</h2>
           <div class="flex flex-wrap">

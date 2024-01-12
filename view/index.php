@@ -32,7 +32,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="index.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="index.php" class="text-gray-300 hover:bg-gray-700 hov er:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <?php if (isset($_SESSION['role'])): ?>
                             <a href="./add_Wikie.php" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-300 ease-in-out">
                                 <i class="fas fa-plus-circle"></i> Add Wiki
@@ -93,7 +93,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             <?php foreach ($last_Tree_wikies_result as $wikie) : ?>
                 <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    <img class="object-cover object-center w-full h-64 rounded-t-lg" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
+                    <img loading="lazy" class="object-cover object-center w-full h-64 rounded-t-lg" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
 
                     <div class="p-6">
                         <span class="inline-block bg-blue-100 text-blue-500 uppercase tracking-wide text-sm font-semibold rounded px-2 py-1"><?= htmlspecialchars($wikie['category_title']) ?></span>
@@ -177,17 +177,60 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
         </div>
     </div>
 </footer>
-<script>
+<script defer>
+async function search(searchType,query){
+    let targetSearch=getElementById('ajax_search');
+    let div_Ofinput=getElementById('search-posts');
+    try{
+        const response= await fetch(`http://localhost/blog%20OOP/brief-10/app/Controller/WikieSearchcontroller.php?${searchType}=${encodeURIComponent(query)}`);
+        if (response.ok) {
+            let data_json= response.json();
+            let html='';
+            data_json.forEach(wikie=>{
+                html=`<h1>${wikie.title}</h1>
+                    <p>${wikie.content}</p>`;
+            })
+            
+        }
+    }catch{
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function search(searchType, query) {
     try {
         const response = await fetch(`http://localhost/blog%20OOP/brief-10/app/Controller/WikieSearchcontroller.php?${searchType}=${encodeURIComponent(query)}`);
         if (response.ok) {
-            const data = await response.json();
+            const data_json = await response.json();
             let htmlContent = '';
-            data.forEach(wikie => {
+            data_json.forEach(wikie => {
                 htmlContent += `
-                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-1 m-4">
-                        <img class="object-cover object-center w-full h-64 lg:h-80 rounded-t-lg" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-1">
+                        <img loading="lazy" class="object-cover object-center w-full h-64 rounded-t-lg" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
 
                         <div class="p-6">
                             <span class="inline-block bg-blue-100 text-blue-500 uppercase tracking-wide text-sm font-semibold rounded px-2 py-1">${wikie.categories_title}</span>
@@ -202,7 +245,7 @@ async function search(searchType, query) {
 
                             <div class="flex items-center justify-between mt-4">
                                 <p class="text-xs text-gray-500">${wikie.created_at}</p>
-                                <a href="#" class="text-blue-600 hover:text-blue-700 underline transition-colors duration-200">Read more</a>
+                                <a href="#" class="text-blue-600 hover:text-blue-700 transition-colors duration-200">Read more</a>
                             </div>
                         </div>
                     </div>
