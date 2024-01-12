@@ -13,6 +13,13 @@ class Tagcontroller{
         return $result;
     }
 
+    public function findAllTagsWikiePage($id){
+        $tags=new Tag;
+        $result=$tags->getAllTagsWikiePage($id);
+        return $result;
+    }
+
+
     public function findOneTag($id){
         $tags=new Tag;
         $result=$tags->getOneTag($id);
@@ -35,6 +42,12 @@ class Tagcontroller{
         $tags=new Tag;
         $tags->editTag($id,$title);
         header('location:./../../view/admin/manage_Tags.php');
+    }
+
+    public function tagsNumbers(){
+        $user=new Tag();
+        $result=$user->countTags();
+        return $result;
     }
 
 }

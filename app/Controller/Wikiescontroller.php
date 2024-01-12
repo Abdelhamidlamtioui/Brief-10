@@ -64,12 +64,23 @@ class Wikiescontroller{
         header('location:./../../view/admin/manage_wikies.php');
     }
 
+    public function unarchiveWikie($id){
+        $Wikies=new Wikies;
+        $Wikies->unarchiveWikie($id);
+        header('location:./../../view/admin/manage_wikies.php');
+    }
+
     public function editWikie($id, $title, $content, $category_id, $tag_ids){
         $Wikies=new Wikies;
         $Wikies->editWikie($id, $title, $content, $category_id, $tag_ids);
         header('location:./../../view/admin/manage_wikies.php');
     }
 
+    public function wikiesNumbers(){
+        $user=new Wikies();
+        $result=$user->countWikies();
+        return $result;
+    }
 
 }
 
@@ -106,3 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['archive-wikie'])) {
     $wikies->archiveWikie($id);
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['unarchive-wikie'])) {
+    $id=$_GET['id'];
+    $wikies->unarchiveWikie($id);
+}

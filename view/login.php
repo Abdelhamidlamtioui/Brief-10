@@ -1,6 +1,9 @@
 <?php if (session_status()==PHP_SESSION_NONE) {
     session_start();
 } 
+if (isset($_SESSION['role'])) {
+    header('location:./index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +14,33 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-200">
+    <nav class="bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.php" class="text-white font-bold text-2xl">BLOGO</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <?php if (isset($_SESSION['role'])): ?>
+                            <a href="./add_Wikie.php" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-300 ease-in-out">
+                                <i class="fas fa-plus-circle"></i> Add Wiki
+                            </a>
+                            <a href="./my_wikies.php" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:bg-purple-700 transition duration-300 ease-in-out">
+                                <i class="fas fa-book"></i> My Wikies
+                            </a>
+                            <form method="post" action="./../app/Controller/Usercontroller.php">
+                                <button name="log-out" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:bg-gray-700 transition duration-300 ease-in-out"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                            </form>
+                        <?php else: ?>
+                            <a href="./login.php" class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600">signup</a>
+                        <?php endif; ?>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </nav>
     <div class="flex items-center justify-center h-screen">
         <div class="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-lg">
             <h2 class="text-2xl font-bold text-center text-gray-700">Login</h2>

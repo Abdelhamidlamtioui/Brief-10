@@ -45,6 +45,17 @@ class Wikies{
         }
     }
 
+    public function unarchiveWikie($id){
+        try{
+            $sql ="UPDATE wiki SET visibility = 1 WHERE id=:id";
+            $statement=$this->database->prepare($sql);
+            $statement->bindParam(':id',$id);
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
     public function getAllWikiesHome(){
         try{
             $sql="SELECT * FROM wiki";
@@ -130,7 +141,10 @@ class Wikies{
 
     public function getOneWikiePage($id){
         try{
-            $sql="SELECT SELECT wiki.*, categories.title AS categories_title FROM wiki JOIN categories ON wiki.category_id = categories.id WHERE id= :id AND wiki.visibility = 1";
+            $sql="SELECT wiki.*, categories.title AS categories_title 
+            FROM wiki 
+            JOIN categories ON wiki.category_id = categories.id 
+            WHERE wiki.id = :id AND wiki.visibility = 1;";
             $stmt=$this->database->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();
@@ -165,6 +179,19 @@ class Wikies{
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function countWikies(){
+        try{
+            $sql ="SELECT COUNT(*) FROM wiki";
+            $statement=$this->database->prepare($sql);
+            $statement->execute();
+            $result=$statement->fetch();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 }

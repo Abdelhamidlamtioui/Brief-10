@@ -74,4 +74,17 @@ class Categories{
         }
     }
 
+    public function countCategories(){
+        try{
+            $sql ="SELECT COUNT(*) FROM categories";
+            $statement=$this->database->prepare($sql);
+            $statement->execute();
+            $result=$statement->fetch();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
 }

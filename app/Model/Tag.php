@@ -36,6 +36,24 @@ class Tag{
         }
     }
 
+    public function getAllTagsWikiePage($id){
+        try{
+            $sql="SELECT tag.title
+            FROM tag
+            INNER JOIN wikiTag ON tag.id = wikiTag.tag_id
+            WHERE wikiTag.wiki_id = :id
+            ";
+            $stmt=$this->database->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
     public function getOneTag($id){
         try{
             $sql="SELECT * FROM tag WHERE id= :id";
@@ -70,6 +88,19 @@ class Tag{
             $statement->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public function countTags(){
+        try{
+            $sql ="SELECT COUNT(*) FROM tag";
+            $statement=$this->database->prepare($sql);
+            $statement->execute();
+            $result=$statement->fetch();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
         }
     }
 }

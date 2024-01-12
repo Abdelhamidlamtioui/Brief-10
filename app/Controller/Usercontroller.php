@@ -68,8 +68,7 @@ class Usercontroller{
     public function usersNumbers(){
         $user=new User();
         $result=$user->countUsers();
-        $usersNumbers=$result->fetchAll();
-        return $usersNumbers;
+        return $result;
     }
 }
 

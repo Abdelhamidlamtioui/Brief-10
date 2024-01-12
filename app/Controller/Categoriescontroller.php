@@ -37,6 +37,12 @@ class Categoriescontroller{
         header('location:./../../view/admin/manage_Categories.php');
     }
 
+    public function wikiesNumbers(){
+        $user=new Categories();
+        $result=$user->countCategories();
+        return $result;
+    }
+
 }
 
 $categories=new Categoriescontroller;

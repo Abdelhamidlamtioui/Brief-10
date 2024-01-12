@@ -18,21 +18,21 @@ $tag_results=$tag->findAllTags();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-200">
-    <nav class="bg-gray-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-16">
-              <div class="flex-shrink-0">
-                  <a href="#" class="text-white font-bold text-xl">BLOGO</a>
-              </div>
-              <div class="hidden md:block">
-                  <div class="ml-10 flex items-baseline space-x-4">
+    <nav class="bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.php" class="text-white font-bold text-2xl">BLOGO</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
                         <a href="index.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <?php if (isset($_SESSION['role'])): ?>
-                            <a href="./my_wikies.php" class="bg-purple-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 transition duration-150 ease-in-out">
+                            <a href="./my_wikies.php" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:bg-purple-700 transition duration-300 ease-in-out">
                                 <i class="fas fa-book"></i> My Wikies
                             </a>
                             <form method="post" action="./../app/Controller/Usercontroller.php">
-                                <button name="log-out" class="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150 ease-in-out"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                                <button name="log-out" class="px-4 py-2 rounded-md text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:bg-gray-700 transition duration-300 ease-in-out"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                             </form>
                         <?php else: ?>
                             <a href="./signup.php" class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600">Get Started</a>
