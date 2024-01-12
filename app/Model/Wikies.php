@@ -56,6 +56,49 @@ class Wikies{
         }
     }
 
+    public function deleteWikie($id){
+        try{
+            $sql="DELETE FROM wiki WHERE id= :id";
+            $stmt=$this->database->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+
+            $sql="DELETE FROM wikitag WHERE wiki_id= :id";
+            $stmt=$this->database->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+        }catch(PDOException $e){
+            echo"Error: ".$e->getMessage();
+        }
+    }
+
+    public function getAllUserWikies($id){
+        try{
+            $sql="SELECT * FROM wiki WHERE author_id = :id AND visibility = 1;";
+            $stmt=$this->database->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getLastTreeWikies(){
+        try{
+            $sql="SELECT * FROM wiki WHERE visibility = 1 ORDER BY created_at DESC LIMIT 3;";
+            $stmt=$this->database->prepare($sql);
+            $stmt->execute();
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
     public function getOneWikie($id){
         try{
             $sql="SELECT * FROM wiki WHERE id= :id";
@@ -70,7 +113,20 @@ class Wikies{
         }
     }
 
-    public function editWikie($id,$title,$content,$category_id){
+    public function searchForWikie($query){
+        try{
+            $sql="SELECT * FROM wiki WHERE title LIKE ? AND visibility = 1;";
+            $stmt = $this->database->prepare($sql);
+            $stmt->execute(["%$query%"]);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
+    public function editWikie($id,$title,$content,$category_id,$tag_id){
         try {
             $sql ="UPDATE wiki SET `title`=:title , `content`=:content , `category_id`=:category_id WHERE id = :id";
             $statement = $this->database->prepare($sql);
@@ -78,6 +134,12 @@ class Wikies{
             $statement->bindParam(':title',$title);
             $statement->bindParam(':content',$content);
             $statement->bindParam(':category_id',$category_id);
+            $statement->execute();
+
+            $sql ="UPDATE wikitag SET `tag_id`=:tag_id WHERE `wiki_id`=:wiki_id";
+            $statement = $this->database->prepare($sql);
+            $statement->bindParam(':wiki_id', $id);
+            $statement->bindParam(':tag_id',$tag_id);
             $statement->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();

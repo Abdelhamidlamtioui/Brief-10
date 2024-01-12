@@ -15,21 +15,32 @@ $tag_results=$tag->findAllTags();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-200">
-    <nav class="flex justify-between items-center bg-blue-500 text-white h-14 text-lg">
-        <div class="text-2xl font-bold pl-10 cursor-pointer">LOGO</div>
-        <div>
-            <ul class="flex gap-7 font-semibold">
-                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Users.php">Manage User</a></li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Category.php">Manage Categories</a></li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Wikies.php">Manage Wikies</a></li>
-                <li class="hover:bg-blue-300 px-1 cursor-pointer"><a href="manage_Tags.php">Manage Tags</a></li>
-            </ul>
-        </div>
-        <div class="pr-10">
-            <a class="bg-red-600 hover:bg-red-400 py-1 px-2 rounded-md cursor-pointer" href="Logout.php">Logout</a>
-        </div>
+    <nav class="bg-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+              <div class="flex-shrink-0">
+                  <a href="#" class="text-white font-bold text-xl">BLOGO</a>
+              </div>
+              <div class="hidden md:block">
+                  <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <?php if (isset($_SESSION['role'])): ?>
+                            <a href="./my_wikies.php" class="bg-purple-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-600 transition duration-150 ease-in-out">
+                                <i class="fas fa-book"></i> My Wikies
+                            </a>
+                            <form method="post" action="./../app/Controller/Usercontroller.php">
+                                <button name="log-out" class="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-150 ease-in-out"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                            </form>
+                        <?php else: ?>
+                            <a href="./signup.php" class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-600">Get Started</a>
+                        <?php endif; ?>
+                  </div>
+              </div>
+          </div>
+      </div>
     </nav>
     <section>
         <div class="flex justify-center text-5xl pt-10">
@@ -62,7 +73,7 @@ $tag_results=$tag->findAllTags();
                     </select>
                 </div>
                 <input type="hidden" name="user-id" value="<?= $_SESSION['id'] ?>">
-                <button type="submit" name="add-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
+                <button type="submit" name="add-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-blue-500 text-lg">
                     Add Wikie
                 </button> 
             </form>
