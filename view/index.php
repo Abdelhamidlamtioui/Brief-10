@@ -177,50 +177,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
         </div>
     </div>
 </footer>
-<script defer>
-async function search(searchType,query){
-    let targetSearch=getElementById('ajax_search');
-    let div_Ofinput=getElementById('search-posts');
-    try{
-        const response= await fetch(`http://localhost/blog%20OOP/brief-10/app/Controller/WikieSearchcontroller.php?${searchType}=${encodeURIComponent(query)}`);
-        if (response.ok) {
-            let data_json= response.json();
-            let html='';
-            data_json.forEach(wikie=>{
-                html=`<h1>${wikie.title}</h1>
-                    <p>${wikie.content}</p>`;
-            })
-            
-        }
-    }catch{
-
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script>
 async function search(searchType, query) {
     try {
         const response = await fetch(`http://localhost/blog%20OOP/brief-10/app/Controller/WikieSearchcontroller.php?${searchType}=${encodeURIComponent(query)}`);
