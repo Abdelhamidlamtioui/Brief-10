@@ -112,20 +112,6 @@ class Wikies{
             return false;
         }
     }
-
-    public function searchForWikie($query){
-        try{
-            $sql="SELECT * FROM wiki WHERE title LIKE ? AND visibility = 1;";
-            $stmt = $this->database->prepare($sql);
-            $stmt->execute(["%$query%"]);
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $results;
-        }catch( PDOException $e){
-            echo "Error: ". $e->getMessage();
-            return false;
-        }
-    }
-
     public function editWikie($id,$title,$content,$category_id,$tag_id){
         try {
             $sql ="UPDATE wiki SET `title`=:title , `content`=:content , `category_id`=:category_id WHERE id = :id";

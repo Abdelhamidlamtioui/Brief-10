@@ -27,11 +27,7 @@ class Wikiescontroller{
         return $result;
     }
 
-    public function searchForWikie($search){
-        $Wikies=new Wikies;
-        $result=$Wikies->searchForWikie($search);
-        return $result;
-    }
+   
 
     public function findlastTreeWikies(){
         $Wikies=new Wikies;
@@ -62,6 +58,7 @@ class Wikiescontroller{
         $Wikies->editWikie($id,$title,$content,$category_id,$tag_id);
         header('location:./../../view/admin/manage_wikies.php');
     }
+
 
 }
 
@@ -97,23 +94,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['archive-wikie'])) {
     $wikies->archiveWikie($id);
 }
 
-if(isset($_GET['search'])) {
-    $searchTerm = $_GET['search'];
-    $wikies_result=$wikies->searchForWikie($search);
-    foreach ($wikies_result as $wikie) {
-        echo '<div>';
-        echo '<img class="object-cover object-center w-full h-64 rounded-lg lg:h-80" src="" alt="">';
-        echo '<div class="mt-8">';
-        echo '<span class="text-blue-500 uppercase">category</span>';
-        echo '<h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">' . htmlspecialchars($wikie['title']) . '</h1>';
-        echo '<p class="mt-2 text-gray-500 dark:text-gray-400">' . htmlspecialchars($wikie['content']) . '</p>';
-        echo '<div class="flex items-center justify-between mt-4">';
-        echo '<div>';
-        echo '<p class="text-sm text-gray-500 dark:text-gray-400">' . htmlspecialchars($wikie['created_at']) . '</p>';
-        echo '</div>';
-        echo '<a href="#" class="inline-block text-blue-500 underline hover:text-blue-400">Read more</a>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
-}

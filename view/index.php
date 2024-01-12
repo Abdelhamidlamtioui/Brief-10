@@ -52,12 +52,12 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
           </div>
       </div>
   </nav>
-  <section class="bg-cover bg-center h-96 text-white py-24 px-10 object-fill" style="background-image: url('your-background-image-url.jpg');">
+  <section class="bg-cover bg-center h-96 text-white py-24 px-10 object-fill">
       <div class="max-w-7xl mx-auto">
           <div class="text-center">
               <h1 class="text-5xl font-bold mb-4">Welcome to Our Blog!</h1>
               <p class="text-xl mb-8">Discover inspiring stories, insights, and ideas</p>
-              <a href="#latest-posts" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <a href="#search-posts" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                   Explore Our Posts
               </a>
           </div>
@@ -127,7 +127,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
             </div>
             <div class="mb-4">
                 <label for="tag-id" class="block text-gray-700 text-lg font-bold mb-2">Categories:</label>
-                <select name="categories-id" id="tag-id" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
+                <select name="categories-id" id="categories-id" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
                             <?php foreach ($categories_result as $categorie) : ?>
                                 <option value="<?= htmlspecialchars($categorie['id']) ?>"><?= htmlspecialchars($categorie['title']) ?></option>
                             <?php endforeach ; ?>
@@ -135,7 +135,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
             </div>
             <div class="mb-4">
                 <label for="tag-id" class="block text-gray-700 text-lg font-bold mb-2">Tags:</label>
-                <select name="tags-id" id="tag-id" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
+                <select name="tags-id" id="tags-id" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
                             <?php foreach ($tags_result as $tag) : ?>
                                 <option value="<?= $tag['id'] ?>"><?= $tag['title'] ?></option>
                             <?php endforeach ; ?>
@@ -146,8 +146,8 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
         </div>
 
         <hr class="my-8 border-gray-200 dark:border-gray-700">
-        <div id="latest-posts" class="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-            
+        <div id="search-posts" class="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+
         </div>
     </div>
   </section>
@@ -183,22 +183,52 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
     </div>
 </footer>
 <script>
-document.getElementById('search_Ajax').addEventListener('keyup',async function(e){
-        try {
-            const query= e.target.value;
-            console.log(query);
-            const response =await fetch('./../app/Controller/Usercontroller.php?search='+encodeURIComponent(query))
-            if(response.ok){
-                console.log('hi');
-                const data =await response.text();
-                console.log(data);
-                document.getElementById('ajax-data').innerHTML = data;
-            }
-                
-        } catch (error) {
-            console.log(error)
+async function search(searchType, query) {
+    try {
+        const response = await fetch(`http://localhost/blog%20OOP/brief-10/app/Controller/WikieSearchcontroller.php?${searchType}=${encodeURIComponent(query)}`);
+        if (response.ok) {
+            const data = await response.json();
+            let htmlContent = '';
+            data.forEach(wikie => {
+                htmlContent += `
+                    <div>
+                        <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
+                        <div class="mt-8">
+                            <span class="text-blue-500 uppercase">category</span>
+                            <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
+                                ${wikie.title}
+                            </h1>
+                            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                                ${wikie.content}
+                            </p>
+                            <div class="flex items-center justify-between mt-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">${wikie.created_at}</p>
+                                </div>
+                                <a href="#" class="inline-block text-blue-500 underline hover:text-blue-400">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('search-posts').innerHTML = htmlContent;
         }
-})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('search_Ajax').addEventListener('input', function(e) {
+    search('searchTitle', e.target.value);
+});
+
+document.getElementById('categories-id').addEventListener('input', function(e) {
+    search('searchCategory', e.target.value);
+});
+
+document.getElementById('tags-id').addEventListener('input', function(e) {
+    search('searchTag', e.target.value);
+});
 </script>
 </body>
 </html>
