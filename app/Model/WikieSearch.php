@@ -39,14 +39,10 @@ class WikieSearch {
     }
     public function searchForWikieByTag($query) {
         try {
-            $sql = "SELECT w.title, w.content, c.name as category_name, t.name as tag_name
-            FROM wiki w
-            LEFT JOIN category c ON w.category_id = c.id
-            JOIN wikiTag wt ON w.id = wt.wiki_id
-            JOIN tag t ON wt.tag_id = t.id
-            WHERE w.title LIKE ? OR c.name LIKE ? OR t.name LIKE ?;";
+            $sql = "SELECT wiki.* FROM wiki JOIN wikiTag ON wiki.id = wikiTag.wiki_id WHERE wikiTag.tag_id = :tag_id;";
             $stmt = $this->database->prepare($sql);
-            $stmt->execute(["%$query%"]);
+            $stmt->bindParam(':tag_id',$query);
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error: " . $e->getMessage());

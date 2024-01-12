@@ -103,7 +103,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
                     </h1>
 
                     <p class="mt-2 text-gray-500 dark:text-gray-400">
-                        <?= htmlspecialchars( $wikie['content'] )?>
+                        <?= htmlspecialchars(substr($wikie['content'], 0, 200)) . (strlen($wikie['content']) > 200 ? '...' : '') ?>
                     </p>
 
                     <div class="flex items-center justify-between mt-4">
@@ -199,7 +199,7 @@ async function search(searchType, query) {
                                 ${wikie.title}
                             </h1>
                             <p class="mt-2 text-gray-500 dark:text-gray-400">
-                                ${wikie.content}
+                                ${wikie.content.substring(0, 200)}...
                             </p>
                             <div class="flex items-center justify-between mt-4">
                                 <div>

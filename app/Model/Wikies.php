@@ -11,23 +11,25 @@ class Wikies{
         $this->database=$connection->getConnection();
     }
     
-    public function addWikie($title,$content,$user_id,$category_id,$tag_id){
+    public function addWikie($title, $content, $category_id, $tag_ids,$author_id){
         try {
             $sql ="INSERT INTO wiki (`title`, `content`,`visibility`, `author_id`,`category_id`) VALUES (:title,:content,1,:user_id,:category_id)";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':title', $title);
             $statement->bindParam(':content',$content);
-            $statement->bindParam(':user_id', $user_id);
+            $statement->bindParam(':user_id', $author_id);
             $statement->bindParam(':category_id',$category_id);
             $statement->execute();
 
             $wikie_id=$this->database->lastInsertId();
             
-            $sql ="INSERT INTO wikitag (`wiki_id`, `tag_id`) VALUES (:wiki_id,:tag_id)";
-            $statement = $this->database->prepare($sql);
-            $statement->bindParam(':wiki_id', $wikie_id);
-            $statement->bindParam(':tag_id',$tag_id);
-            $statement->execute();
+            $sql = "INSERT INTO wikitag (`wiki_id`, `tag_id`) VALUES (:wiki_id, :tag_id)";
+            foreach ($tag_ids as $tag_id) {
+                $statement = $this->database->prepare($sql);
+                $statement->bindParam(':wiki_id', $wikie_id);
+                $statement->bindParam(':tag_id', $tag_id);
+                $statement->execute();
+            }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -112,21 +114,28 @@ class Wikies{
             return false;
         }
     }
-    public function editWikie($id,$title,$content,$category_id,$tag_id){
+    public function editWikie($id, $title, $content, $category_id, $tag_ids){
         try {
-            $sql ="UPDATE wiki SET `title`=:title , `content`=:content , `category_id`=:category_id WHERE id = :id";
+            $sql = "UPDATE wiki SET `title`=:title, `content`=:content, `category_id`=:category_id WHERE id = :id";
             $statement = $this->database->prepare($sql);
-            $statement->bindParam(':id',$id);
-            $statement->bindParam(':title',$title);
-            $statement->bindParam(':content',$content);
-            $statement->bindParam(':category_id',$category_id);
+            $statement->bindParam(':id', $id);
+            $statement->bindParam(':title', $title);
+            $statement->bindParam(':content', $content);
+            $statement->bindParam(':category_id', $category_id);
             $statement->execute();
-
-            $sql ="UPDATE wikitag SET `tag_id`=:tag_id WHERE `wiki_id`=:wiki_id";
+    
+            $sql = "DELETE FROM wikitag WHERE `wiki_id`=:wiki_id";
             $statement = $this->database->prepare($sql);
             $statement->bindParam(':wiki_id', $id);
-            $statement->bindParam(':tag_id',$tag_id);
             $statement->execute();
+
+            $sql = "INSERT INTO wikitag (`wiki_id`, `tag_id`) VALUES (:wiki_id, :tag_id)";
+            foreach ($tag_ids as $tag_id) {
+                $statement = $this->database->prepare($sql);
+                $statement->bindParam(':wiki_id', $id);
+                $statement->bindParam(':tag_id', $tag_id);
+                $statement->execute();
+            }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

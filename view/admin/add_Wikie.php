@@ -41,15 +41,16 @@ $tag_results=$tag->findAllTags();
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label for="tag-id" class="block text-gray-700 text-lg font-bold mb-2">Tags:</label>
-                    <select name="tag-id" id="tag-id" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-lg">
-                        <?php foreach ($tag_results as $data) : ?>
-                            <option value="<?= $data['id'] ?>"><?= $data['title'] ?></option>
-                        <?php endforeach ; ?>
-                    </select>
+                    <label for="tag-id" class="block text-gray-700 text-lg font-bold mb-2">Tag:</label>
+                    <?php foreach ($tag_results as $data): ?>
+                        <div class="flex items-center mb-2">
+                            <input type="checkbox" id="tag-<?= htmlspecialchars($data['id']) ?>" name="tags[]" value="<?= htmlspecialchars($data['id']) ?>" class="mr-2">
+                            <label for="tag-<?= htmlspecialchars($data['id']) ?>" class="text-lg"><?= htmlspecialchars($data['title']) ?></label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 <input type="hidden" name="user-id" value="<?= $_SESSION['id'] ?>">
-                <button type="submit" name="add-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 text-lg">
+                <button type="submit" name="add-wikie" class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-blue-500 text-lg">
                     Add Wikie
                 </button> 
             </form>

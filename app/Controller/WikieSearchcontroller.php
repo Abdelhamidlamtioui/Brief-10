@@ -10,7 +10,7 @@ public function searchForWikieByTitle($search){
         $Wikies=new WikieSearch;
         $result=$Wikies->searchForWikieByTitle($search);
         return $result;
-    }
+}
 
 public function searchForWikieByCategory($search){
     $Wikies=new WikieSearch;
@@ -39,7 +39,7 @@ if(isset($_GET['searchTitle'])) {
 
 if(isset($_GET['searchTag'])) {
     $search = $_GET['searchTag'];
-    $searchTerm = filter_var($search, FILTER_SANITIZE_STRING);
+    $searchTerm = filter_var($search, FILTER_SANITIZE_NUMBER_INT);
     $wikies_result=$wikies->searchForWikieByTag($searchTerm);
 
 
