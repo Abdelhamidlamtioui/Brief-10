@@ -96,7 +96,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
                 <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
 
                 <div class="mt-8">
-                    <span class="text-blue-500 uppercase">category</span>
+                    <span class="text-blue-500 uppercase"><?= htmlspecialchars($wikie['category_title']) ?></span>
 
                     <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
                         <?= htmlspecialchars($wikie['title']) ?>
@@ -110,8 +110,7 @@ $last_Tree_wikies_result=$wikies->findlastTreeWikies();
                         <div>
                             <p class="text-sm text-gray-500 dark:text-gray-400"><?=htmlspecialchars($wikie['created_at'])?></p>
                         </div>
-
-                        <a href="#" class="inline-block text-blue-500 underline hover:text-blue-400">Read more</a>
+                        <a href="wikie.php?id=<?= htmlspecialchars($wikie['id']) ?>" class="inline-block text-blue-500 underline hover:text-blue-400">Read More</a>
                     </div>
 
                 </div>
@@ -194,7 +193,7 @@ async function search(searchType, query) {
                     <div>
                         <img class="object-cover object-center w-full h-64 rounded-lg lg:h-80" src="./img/Best-times-to-post-2022_BTTP-Social-Media.svg" alt="">
                         <div class="mt-8">
-                            <span class="text-blue-500 uppercase">category</span>
+                            <span class="text-blue-500 uppercase">${wikie.categories_title}</span>
                             <h1 class="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
                                 ${wikie.title}
                             </h1>

@@ -45,6 +45,19 @@ class Wikies{
         }
     }
 
+    public function getAllWikiesHome(){
+        try{
+            $sql="SELECT * FROM wiki";
+            $stmt=$this->database->prepare($sql);
+            $stmt->execute();
+            $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $fetchall;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
     public function getAllWikies(){
         try{
             $sql="SELECT * FROM wiki";
@@ -90,7 +103,7 @@ class Wikies{
 
     public function getLastTreeWikies(){
         try{
-            $sql="SELECT * FROM wiki WHERE visibility = 1 ORDER BY created_at DESC LIMIT 3;";
+            $sql="SELECT wiki.id, wiki.title, wiki.content, wiki.created_at, categories.title AS category_title FROM wiki JOIN categories ON wiki.category_id = categories.id ORDER BY wiki.created_at DESC LIMIT 3;";
             $stmt=$this->database->prepare($sql);
             $stmt->execute();
             $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -104,6 +117,20 @@ class Wikies{
     public function getOneWikie($id){
         try{
             $sql="SELECT * FROM wiki WHERE id= :id";
+            $stmt=$this->database->prepare($sql);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+            $fetch=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $fetch;
+        }catch( PDOException $e){
+            echo "Error: ". $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getOneWikiePage($id){
+        try{
+            $sql="SELECT SELECT wiki.*, categories.title AS categories_title FROM wiki JOIN categories ON wiki.category_id = categories.id WHERE id= :id AND wiki.visibility = 1";
             $stmt=$this->database->prepare($sql);
             $stmt->bindParam(':id',$id);
             $stmt->execute();

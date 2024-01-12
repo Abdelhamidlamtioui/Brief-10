@@ -14,6 +14,12 @@ class Wikiescontroller{
         return $result;
     }
 
+    public function findAllWikiesHome(){
+        $Wikies=new Wikies;
+        $result=$Wikies->getAllWikiesHome();
+        return $result;
+    }
+
     public function findAllUserWikies(){
         $Wikies=new Wikies;
         $id=$_SESSION['id'];
@@ -27,6 +33,11 @@ class Wikiescontroller{
         return $result;
     }
 
+    public function findOneWikiePage($id){
+        $Wikies=new Wikies;
+        $result=$Wikies->getOneWikiePage($id);
+        return $result;
+    }
    
 
     public function findlastTreeWikies(){

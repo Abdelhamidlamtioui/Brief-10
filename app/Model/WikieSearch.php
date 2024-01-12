@@ -15,7 +15,7 @@ class WikieSearch {
 
     public function searchForWikieByTitle($query) {
         try {
-            $sql = "SELECT * FROM wiki WHERE title LIKE ? AND visibility = 1;";
+            $sql = "SELECT wiki.*, categories.title AS categories_title FROM wiki JOIN categories ON wiki.category_id = categories.id WHERE wiki.title LIKE ? AND wiki.visibility = 1;";
             $stmt = $this->database->prepare($sql);
             $stmt->execute(["%$query%"]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ class WikieSearch {
 
     public function searchForWikieByCategory($query) {
         try {
-            $sql = "SELECT * FROM wiki WHERE category_id= :category_id AND visibility = 1;";
+            $sql = "SELECT wiki.*, categories.title AS categories_title FROM wiki JOIN categories ON wiki.category_id = categories.id WHERE category_id= :category_id AND visibility = 1;";
             $stmt = $this->database->prepare($sql);
             $stmt->bindParam(':category_id',$query);
             $stmt->execute();
@@ -39,7 +39,7 @@ class WikieSearch {
     }
     public function searchForWikieByTag($query) {
         try {
-            $sql = "SELECT wiki.* FROM wiki JOIN wikiTag ON wiki.id = wikiTag.wiki_id WHERE wikiTag.tag_id = :tag_id;";
+            $sql = "SELECT wiki.*, categories.title AS categories_title FROM wiki JOIN wikiTag ON wiki.id = wikiTag.wiki_id JOIN categories ON wiki.category_id = categories.id WHERE wikiTag.tag_id = :tag_id AND visibility = 1;";
             $stmt = $this->database->prepare($sql);
             $stmt->bindParam(':tag_id',$query);
             $stmt->execute();
