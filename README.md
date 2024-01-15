@@ -66,7 +66,7 @@ The main goal is to create a place where everyone can collaborate, create, find,
    git clone https://github.com/Abdelhamidlamtioui/Brief-10.git
    ```
 2. **Set up the database:**
-   - Import the `database/database.sql` file into your MySQL database.
+   - Import the `sql/Create.sql` file into your MySQL database.
    - Update the database configuration in the `app/config.php` file.
 
 3. **Run the application:**
