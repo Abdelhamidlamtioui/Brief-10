@@ -114,7 +114,7 @@ class Wikies{
 
     public function getLastTreeWikies(){
         try{
-            $sql="SELECT wiki.*, categories.title AS category_title FROM wiki JOIN categories ON wiki.category_id = categories.id ORDER BY wiki.created_at DESC LIMIT 3;";
+            $sql="SELECT wiki.*, categories.title AS category_title FROM wiki JOIN categories ON wiki.category_id = categories.id WHERE visibility=1 ORDER BY wiki.created_at DESC LIMIT 3;";
             $stmt=$this->database->prepare($sql);
             $stmt->execute();
             $fetchall=$stmt->fetchAll(PDO::FETCH_ASSOC);
