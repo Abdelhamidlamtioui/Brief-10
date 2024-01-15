@@ -54,7 +54,7 @@ The main goal is to create a place where everyone can collaborate, create, find,
 
 ## Technologies Used
 
-- Frontend: HTML5, CSS Framework (e.g., Tailwind CSS), JavaScript
+- Frontend: HTML5, Tailwind CSS, JavaScript
 - Backend: PHP 8 with MVC (Model-View-Controller) architecture
 - Database: PDO driver for connecting to the database
 
@@ -81,10 +81,6 @@ The main goal is to create a place where everyone can collaborate, create, find,
 
 Contributions are welcome! If you find any bugs or want to improve the project, please submit an issue or a pull request.
 
-## License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
 ## Acknowledgements
 
 - [Tailwind CSS](https://tailwindcss.com) - A utility-first CSS framework.
@@ -95,4 +91,4 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ## Contact
 
-For any inquiries or questions, please contact [your-email-address].
+For any inquiries or questions, please contact simonmsami99@gmail.com.
